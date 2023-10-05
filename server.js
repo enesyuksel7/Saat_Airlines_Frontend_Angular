@@ -1,13 +1,8 @@
-var express = require('express');
-var app = express();
-var server = require('http').Server(app);
-var bodyParser = require('body-parser');
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}) );
-
-app.use( express.static(__dirname + '/client' ) );
-
-var listener = server.listen(process.env.PORT || 5000, function(){
-    console.log('Listening on port ' + listener.address().port); //Listening on port 5000
-});
+const express = require('express');
+const path = require('path');
+const app = express();
+app.use(express.static(__dirname + '/dist/saat-airlines-frontend'));
+app.get('/*', function(req,res) {
+res.sendFile(path.join(__dirname+
+'/dist/saat-airlines-frontend/index.html'));});
+app.listen(process.env.PORT || 8080);
