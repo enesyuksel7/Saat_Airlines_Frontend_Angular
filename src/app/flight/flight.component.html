@@ -1,0 +1,264 @@
+<div class="container">
+	<div class="border">
+		<button class="btn btn-md btn-outline-dark" (click)="open(content)">
+			<i class="fa-solid fa-plane"></i>New Flight</button>
+	  </div>
+
+	<table class="table table-bordered table-striped">
+	  <thead>
+	  <tr>
+		<th>ID</th>
+		<th>Flight Number</th>
+		<th>Route</th>
+		<th>Price</th>
+		<th>Departure Time</th>
+		<th>Arrival Time</th>
+		<th>Capacity</th>
+		<th>Status</th>
+		<th>Actions</th>
+	  </tr>
+	  </thead>
+	  <tbody>
+	  <tr *ngFor="let flight of flights">
+		<td><span>{{flight.id}}</span></td>
+		<td><span>{{flight.flightNumber}}</span></td>
+		<td><span>{{flight.route.source.name.toString()+" - "+flight.route.destination.name.toString()}}</span></td>
+		<td><span>{{flight.price}}</span></td>
+		<td><span>{{flight.departureTime}}</span></td>
+		<td><span>{{flight.arrivalTime}}</span></td>
+		<td><span>{{flight.capacity}}</span></td>
+		<td><span>{{flight.status}}</span></td>
+
+		<td>
+			<button class="btn btn-sm btn-info" (click)="openDetails(contentDetails, flight)">
+			  <i class="fa fa-search"></i>Details</button>
+			<button class="btn btn-sm btn-warning" (click)="openEdit(contentEdit, flight)">
+			  <i class="fa fa-edit"></i>Edit</button>
+			<button class="btn btn-sm btn-danger" (click)="openDelete(contentDelete, flight)">
+			  <i class="fa fa-remove"></i>Delete</button>
+		  </td>
+
+	  </tr>
+	  </tbody>
+	</table>
+  </div>
+
+
+  <ng-template #content let-modal>
+	<div class="modal-header">
+	  <h4 class="modal-title" id="modal-basic-title">New Flight</h4>
+	  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+		<span aria-hidden="true">&times;</span>
+	  </button>
+	</div>
+	<div class="modal-body">
+
+	<form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+
+		<div class="form-group">
+			<label for="flightNumber">Flight Number</label>
+			<div class="input-group">
+			  <input id="flightNumber" name="flightNumber" class="form-control" ngModel>
+			</div>
+		  </div>
+
+	  <div class="form-group">
+		<label for="routeId">Route</label>
+		<div class="input-group">
+			<select name="routeId" style="width: 100%;" ngModel>
+				<option *ngFor="let route of routes" [value]="route.id">{{route.id}}</option>
+			  </select>
+		</div>
+	  </div>
+
+	  <div class="form-group">
+		<label for="price">Price</label>
+		<div class="input-group">
+		  <input id="price" name="price" class="form-control" ngModel>
+		</div>
+	  </div>
+
+	  <!--DATE-->
+	  <div class="form-group">
+		<label for="departureTime">Departure Time</label>
+		<div class="input-group">
+		  <input type="datetime-local" id="departureTime" name="departureTime" class="form-control" ngModel>
+		</div>
+	  </div>
+
+	  <!--DATE-->
+	  <div class="form-group">
+		<label for="arrivalTime">Arrival Time</label>
+		<div class="input-group">
+		  <input type="datetime-local" id="arrivalTime" name="arrivalTime" class="form-control" ngModel>
+		</div>
+	  </div>
+
+	  <div class="form-group">
+		<label for="capacity">Capacity</label>
+		<div class="input-group">
+		  <input id="capacity" name="capacity" class="form-control" ngModel>
+		</div>
+	  </div>
+
+	  <div class="border text-center">
+		<button data-dismiss="modal" class="btn btn-info">Submit</button>
+		</div>
+
+	</form>
+
+	</div>
+	<div class="modal-footer">
+	  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+	</div>
+  </ng-template>
+
+
+  <ng-template #contentDetails let-modal>
+	<div class="modal-header">
+	  <h4 class="modal-title" id="modal-basic-title1">Flight Detail</h4>
+	  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+		<span aria-hidden="true">&times;</span>
+	  </button>
+	</div>
+	<div class="modal-body">
+
+		<form>
+			
+			<div class="form-group">
+			  <label for="flightNumber">Flight Number</label>
+			  <div class="input-group">
+				<input id="fflightNumber" class="form-control" readonly>
+			  </div>
+			</div>
+
+			<div class="form-group">
+			  <label for="route">Route</label>
+			  <div class="input-group">
+				<input id="froute" class="form-control" readonly>
+			  </div>
+			</div>
+
+			<div class="form-group">
+			  <label for="price">Price</label>
+			  <div class="input-group">
+				<input id="fprice" class="form-control" readonly>
+			  </div>
+			</div>
+
+			<div class="form-group">
+				<label for="departureTime">Departure Time</label>
+				<div class="input-group">
+				  <input id="fdepartureTime" class="form-control" readonly>
+				</div>
+			  </div>
+
+			  <div class="form-group">
+				<label for="arrivalTime">Arrival Time</label>
+				<div class="input-group">
+				  <input id="farrivalTime" class="form-control" readonly>
+				</div>
+			  </div>
+
+			  <div class="form-group">
+				<label for="capacity">Capacity</label>
+				<div class="input-group">
+				  <input id="fcapacity" class="form-control" readonly>
+				</div>
+			  </div>
+
+			  <div class="form-group">
+				<label for="status">Status</label>
+				<div class="input-group">
+				  <input id="fstatus" class="form-control" readonly>
+				</div>
+			  </div>
+
+		  </form>
+
+	</div>
+	<div class="modal-footer">
+	  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Close</button>
+	</div>
+  </ng-template>
+
+  <ng-template #contentEdit let-modal>
+	<div class="modal-header">
+	  <h4 class="modal-title" id="modal-basic-title2">Update Flight Data</h4>
+	  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+		<span aria-hidden="true">&times;</span>
+	  </button>
+	</div>
+	<div class="modal-body">
+
+		<form [formGroup]="editForm" novalidate>
+			<div class="form-group"> 
+			 <label>ID</label> 
+			 <div class="input-group"> 
+				<input name="id" class="form-control" readonly> 
+			 </div> 
+		   </div>
+
+			<div class="form-group">
+			  <label for="routeId">Route</label>
+			  <div class="input-group">
+				<select name="routeId" formControlName="routeId" style="width: 100%;">
+					<option *ngFor="let route of routes" [value]="route.id">{{route.source.name}} - {{route.destination.name}}</option>
+				  </select>
+			  </div>
+			</div>
+
+			<div class="form-group">
+			  <label for="price">Price</label>
+			  <div class="input-group">
+				<input formControlName="price" class="form-control">
+			  </div>
+			</div>
+
+			<div class="form-group">
+				<label for="departureTime">Departure Time</label>
+				<div class="input-group">
+				  <input type="datetime-local" formControlName="departureTime" class="form-control">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="arrivalTime">Arrival Time</label>
+				<div class="input-group">
+				  <input type="datetime-local" formControlName="arrivalTime" class="form-control">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="capacity">Capacity</label>
+				<div class="input-group">
+				  <input formControlName="capacity" class="form-control">
+				</div>
+			</div>
+			
+			<div class="border text-center"> <button data-dismiss="modal" class="btn btn-info" (click)="onSave()">Save Changes</button> </div>
+		  </form>
+
+	</div>
+	<div class="modal-footer">
+	  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+	</div>
+  </ng-template>
+
+  <ng-template #contentDelete let-modal>
+	<div class="modal-header">
+	  <h4 class="modal-title">Confirm Delete</h4>
+	  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+		<span aria-hidden="true">&times;</span>
+	  </button>
+	</div>
+	<div class="modal-body">
+	  <h3>Are you sure you want to delete this record?</h3>
+	  <div class="border text-center"> 
+		<button data-dismiss="modal" class="btn btn-danger" (click)="onDelete()">Yes, Delete!</button> 
+	  </div>
+	</div>
+	<div class="modal-footer">
+	  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+	</div>
+  </ng-template>

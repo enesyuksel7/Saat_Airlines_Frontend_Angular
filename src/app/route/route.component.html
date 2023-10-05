@@ -1,0 +1,188 @@
+<div class="container">
+	<div class="border">
+		<button class="btn btn-md btn-outline-dark" (click)="open(content)">
+			<i class="fa-solid fa-plane"></i>New Route</button>
+	  </div>
+
+	<table class="table table-bordered table-striped">
+	  <thead>
+	  <tr>
+		<th>ID</th>
+		<th>Source</th>
+		<th>Destination</th>
+		<th>Distance In Miles</th>
+		<th>Actions</th>
+	  </tr>
+	  </thead>
+	  <tbody>
+	  <tr *ngFor="let route of routes">
+		<td><span>{{route.id}}</span></td>
+		<td><span>{{route.source.name}}</span></td>
+		<td><span>{{route.destination.name}}</span></td>
+		<td><span>{{route.distanceinmiles}}</span></td>
+
+		<td>
+			<button class="btn btn-sm btn-info" (click)="openDetails(contentDetails, route)">
+			  <i class="fa fa-search"></i>Details</button>
+			<button class="btn btn-sm btn-warning" (click)="openEdit(contentEdit, route)">
+			  <i class="fa fa-edit"></i>Edit</button>
+			<button class="btn btn-sm btn-danger" (click)="openDelete(contentDelete, route)">
+			  <i class="fa fa-remove"></i>Delete</button>
+		  </td>
+
+	  </tr>
+	  </tbody>
+	</table>
+  </div>
+
+
+  <ng-template #content let-modal>
+	<div class="modal-header">
+	  <h4 class="modal-title" id="modal-basic-title">New Route</h4>
+	  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+		<span aria-hidden="true">&times;</span>
+	  </button>
+	</div>
+	<div class="modal-body">
+
+	<form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+	    <div class="form-group">
+		  <label for="sourceId">Source ID</label>
+		  <div class="input-group">
+			<select name="sourceId" style="width: 100%;" ngModel>
+				<option *ngFor="let airport of airports" [value]="airport.id">{{airport.name}}</option>
+			  </select>
+		  </div>
+		</div>
+
+	  <div class="form-group">
+		<label for="destination.name">Destination ID</label>
+		<div class="input-group">
+			<select name="destinationId" style="width: 100%;" ngModel>
+				<option *ngFor="let airport of airports" [value]="airport.id">{{airport.name}}</option>
+			  </select>
+		</div>
+	  </div>
+
+	  <div class="form-group">
+		<label for="distanceinmiles">Distance In Miles</label>
+		<div class="input-group">
+		  <input id="distanceinmiles" name="distanceInMiles" class="form-control" ngModel>
+		</div>
+	  </div>
+
+	  <div class="border text-center">
+		<button data-dismiss="modal" class="btn btn-info">Submit</button>
+		</div>
+
+	</form>
+
+	</div>
+	<div class="modal-footer">
+	  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+	</div>
+  </ng-template>
+
+
+  <ng-template #contentDetails let-modal>
+	<div class="modal-header">
+	  <h4 class="modal-title" id="modal-basic-title1">Route Detail</h4>
+	  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+		<span aria-hidden="true">&times;</span>
+	  </button>
+	</div>
+	<div class="modal-body">
+
+		<form>
+			<div class="form-group">
+			  <label for="sourceId">Source ID</label>
+			  <div class="input-group">
+				<input id="fsourceId" class="form-control" readonly>
+			  </div>
+			</div>
+			<div class="form-group">
+			  <label for="destinationId">Destination ID</label>
+			  <div class="input-group">
+				<input id="fdestinationId" class="form-control" readonly>
+			  </div>
+			</div>
+			<div class="form-group">
+			  <label for="distanceinmiles">Distance In Miles</label>
+			  <div class="input-group">
+				<input id="fdistanceinmiles" class="form-control" readonly>
+			  </div>
+			</div>
+
+		  </form>
+
+	</div>
+	<div class="modal-footer">
+	  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Close</button>
+	</div>
+  </ng-template>
+
+  <ng-template #contentEdit let-modal>
+	<div class="modal-header">
+	  <h4 class="modal-title" id="modal-basic-title2">Update Route Data</h4>
+	  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+		<span aria-hidden="true">&times;</span>
+	  </button>
+	</div>
+	<div class="modal-body">
+
+		<form [formGroup]="editForm" novalidate>
+			<div class="form-group"> 
+			 <label>ID</label> 
+			 <div class="input-group"> 
+				<input name="id" class="form-control"> 
+			 </div> 
+		   </div>
+			<div class="form-group">
+			  <label for="sourceId">Source</label>
+			  <div class="input-group">
+				<select name="sourceId" formControlName="sourceId" style="width: 100%;">
+					<option *ngFor="let airport of airports" [value]="airport.id">{{airport.name}}</option>
+				  </select>
+			  </div>
+			</div>
+			<div class="form-group">
+			  <label for="destination.name">Destination</label>
+			  <div class="input-group">
+				<select name="destinationId" formControlName="destinationId" style="width: 100%;">
+					<option *ngFor="let airport of airports" [value]="airport.id">{{airport.name}}</option>
+				  </select>
+			  </div>
+			</div>
+			<div class="form-group">
+			  <label for="distanceinmiles">Distance In Miles</label>
+			  <div class="input-group">
+				<input formControlName="distanceinmiles" class="form-control">
+			  </div>
+			</div>
+			
+			<div class="border text-center"> <button data-dismiss="modal" class="btn btn-info" (click)="onSave()">Save Changes</button> </div>
+		  </form>
+
+	</div>
+	<div class="modal-footer">
+	  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+	</div>
+  </ng-template>
+
+  <ng-template #contentDelete let-modal>
+	<div class="modal-header">
+	  <h4 class="modal-title">Confirm Delete</h4>
+	  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+		<span aria-hidden="true">&times;</span>
+	  </button>
+	</div>
+	<div class="modal-body">
+	  <h2>Are you sure you want to delete this record.</h2>
+	  <div class="border text-center"> 
+		<button data-dismiss="modal" class="btn btn-danger" (click)="onDelete()">Yes, Delete!</button> 
+	  </div>
+	</div>
+	<div class="modal-footer">
+	  <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
+	</div>
+  </ng-template>
